@@ -13,27 +13,58 @@ import random
   raz nowo wylosowaną liczbę, czy zakończyć. '''
 
 text = ''
-rekord = [100]
+rekord = 100
+print('Witaj')
 while text.lower() != 'nie':
+
+    maks = input('\nWymyśl i podaj liczbę maksymalną (większą od zera): ')
     
-    int_max = int(input('Wymyśl i podaj liczbę maksymalną (Proszę, tylko nie zero): '))
+    # sprawdzam czy maks jest liczbą
+    is_digit = maks.isdigit()
+    if is_digit == False:
+        print('To jednak musi być liczba')
+        continue
+
+    # sprawdzam czy maks nie jest zerem lub ''
+    is_true = bool(maks)
+    if is_true == False:
+        continue
+    
+    int_max = int(maks)
     if int_max == 0:
-        print('...bo zero to następujące kłopoty:')
-    liczba = random.randint(1, int_max)
+        liczba = random.randint(0, int_max)
+    else:
+        liczba = random.randint(1, int_max)
+        
     zgadnij = 0
-    licznik_prób = 0
-    while zgadnij != liczba:
-        zgadnij = int(input('Zgadnij jaką liczbę wylosowałem? '))
-        if zgadnij == liczba:
+    licznik_prob = 0
+    int_zgadnij = 0
+    
+    while int_zgadnij != liczba:
+        zgadnij = input('Zgadnij jaką liczbę wylosowałem? ')
+        licznik_prob += 1
+        
+        # sprawdzam czy wpisano liczbę
+        is_int = zgadnij.isdigit()
+        if is_int == False:
+            print('Niestety nie zgadłeś\nTo jednak musi być liczba')
+            continue
+        
+        int_zgadnij = int(zgadnij)
+        if int_zgadnij == liczba:
             print('Zgadłeś! Wylosowałem', liczba)
-            licznik_prób += 1
-            if licznik_prób < rekord[-1]:
+            if licznik_prob < rekord:
                 print('Padł rekord!')
-                rekord.append(licznik_prób)
-            print('Udało Ci się zgadnąć po %d próbach' % licznik_prób)
+                rekord = licznik_prob
+            print('Udało Ci się zgadnąć po %d próbach' % licznik_prob)
             text = input('Czy chcesz zagrać jeszcze raz? (tak/nie) ')
-        elif zgadnij != liczba:
+        elif int_zgadnij != liczba:
             print('Niestety, nie zgadłeś')
-            licznik_prób += 1
+            if int_zgadnij < liczba:
+                print('Wylosowana liczba jest większa')
+            elif int_zgadnij > liczba:
+                print('Wylosowana liczba jest mniejsza')
+            
+                
 
         
